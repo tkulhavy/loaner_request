@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_script_email">
+    <sys_script_email action="INSERT_OR_UPDATE">
+        <name>x_snc_loaner_reque_loaner_request_script_1</name>
+        <new_lines_to_html>false</new_lines_to_html>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+	if(current.item_type == 'cmdb_ci_computer'){
+		
+		
+		var request = new sn_ws.RESTMessageV2();
+		request.setEndpoint('https://adf-kp2-jul25nif-test-002.lab.service-now.com/api/now/table/u_password_vault?sysparm_query=u_asset%3D' + current.cmdb_ci.asset_tag +'&sysparm_fields=u_password&sysparm_limit=1');
+		request.setHttpMethod('GET');
+		
+		//Eg. UserName="admin", Password="admin" for this code sample.
+		var user = 'admin';
+		var password = 'july';
+		
+		request.setBasicAuth(user,password);
+		request.setRequestHeader("Accept","application/json");
+		
+		var response = request.execute();
+		template.print(response.getBody());
+		
+		var obj = JSON.parse(response.getBody());
+		var myPass = obj.result[0].u_password;
+		template.print('u_password is ' + myPass);
+		
+	}
+})(current, previous);]]></script>
+        <sys_class_name>sys_script_email</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-07-27 13:35:44</sys_created_on>
+        <sys_id>d205c179b0ab13007f4411fca0f6a821</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>x_snc_loaner_reque_loaner_request_script_1</sys_name>
+        <sys_package display_value="Loaner Request" source="x_snc_loaner_reque">6a252a4db06313007f4411fca0f6a81b</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Loaner Request">6a252a4db06313007f4411fca0f6a81b</sys_scope>
+        <sys_update_name>sys_script_email_d205c179b0ab13007f4411fca0f6a821</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-07-27 13:47:43</sys_updated_on>
+    </sys_script_email>
+</record_update>
